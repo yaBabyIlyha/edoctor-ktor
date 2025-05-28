@@ -29,7 +29,7 @@ class RegisterController(val call: ApplicationCall) {
                             login = registerReceiveRemote.login,
                             password = registerReceiveRemote.password,
                             email = registerReceiveRemote.email,
-                            username = ""
+                            value = ""
                         )
                     )
                     Tokens.insert(

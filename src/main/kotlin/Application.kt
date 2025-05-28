@@ -1,6 +1,7 @@
 package com.example
 
 import com.example.DoctorList.configureDoctorsRouting
+import com.example.database.users.configureUserRouting
 import com.example.login.configureLoginRouting
 import com.example.register.configureRegisterRouting
 import io.ktor.server.application.*
@@ -33,6 +34,7 @@ fun Application.module() {
     configureRegisterRouting()
     configureLoginRouting()
     configureDoctorsRouting()
+    configureUserRouting()
 }
 
 

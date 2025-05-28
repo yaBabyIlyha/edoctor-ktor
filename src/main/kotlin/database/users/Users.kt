@@ -10,16 +10,16 @@ import org.jetbrains.exposed.sql.transactions.transaction
 object Users : Table("users") {
     val login = varchar("login", 30)
     val password = varchar("password", 28)
-    val username = varchar("username", 12)
     val email = varchar("email", 30)
+    val value = varchar("value", 10)
 
     fun insert(userDTO : UserDTO) {
         transaction {
             insert {
                 it[login] = userDTO.login
                 it[password] = userDTO.password
-                it[username] = userDTO.username ?: ""
                 it[email] = userDTO.email ?: ""
+                it[value] = userDTO.value ?: ""
             }
         }
     }
@@ -31,8 +31,8 @@ object Users : Table("users") {
                     UserDTO(
                         login = it[Users.login],
                         password = it[password],
-                        username = it[username]?.takeIf { name -> name.isNotBlank() },
-                        email = it[email]?.takeIf { e -> e.isNotBlank() }
+                        email = it[email],
+                        value = it[value]
                     )
                 }
             }

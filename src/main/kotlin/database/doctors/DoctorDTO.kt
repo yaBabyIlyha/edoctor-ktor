@@ -6,4 +6,5 @@ class DoctorDTO (
     val secondName: String,
     val thirdName: String,
     val spec: String,
+    val balance: String
 )
