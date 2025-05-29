@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class TokenRepository {
 
-    fun getLoginByToken(token: String): String? {
+    public fun getLoginByToken(token: String): String? {
         return transaction {
             Tokens.selectAll()
                 .where { Tokens.token eq token }
