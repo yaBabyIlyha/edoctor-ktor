@@ -1,3 +1,4 @@
+import com.example.DoctorList.DoctorController
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -16,6 +17,9 @@ data class DoctorLoginRequest(
 
 fun Application.configureDoctorsRouting() {
     routing {
+        get("/doctors") {
+            DoctorController(call).getAllDoctors()
+        }
         post("/doctor/login") {
             val loginRequest = call.receive<DoctorLoginRequest>()
             val doctor = transaction {
