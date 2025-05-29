@@ -65,11 +65,8 @@ fun Application.configureUserRouting() {
             )
         }
         get("/appointment/next") {
-            val token = getTokenFromHeader(call)
-                ?: return@get call.respond(HttpStatusCode.Unauthorized, "Missing token")
-
-            val login = getLoginForToken(token)
-                ?: return@get call.respond(HttpStatusCode.Unauthorized, "Invalid token")
+            val login = call.request.queryParameters["login"]
+                ?: return@get call.respond(HttpStatusCode.BadRequest, "Missing login")
 
             val appointment = Appointments.getUpcomingAppointment(login)
                 ?: return@get call.respond(HttpStatusCode.NotFound, "No appointment")
@@ -88,6 +85,7 @@ fun Application.configureUserRouting() {
                 )
             )
         }
+
 
     }
 }

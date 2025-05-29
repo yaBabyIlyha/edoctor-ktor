@@ -18,6 +18,8 @@ object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
     }
 
     override fun deserialize(decoder: Decoder): LocalDateTime {
-        return LocalDateTime.parse(decoder.decodeString(), formatter)
+        val str = decoder.decodeString()
+        println("Deserializing LocalDateTime from: $str")
+        return LocalDateTime.parse(str, formatter)
     }
 }

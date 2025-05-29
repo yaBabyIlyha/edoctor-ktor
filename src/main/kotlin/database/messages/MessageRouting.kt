@@ -1,6 +1,8 @@
 package com.example.database.messages
 
 import MessageDTO
+import com.example.database.appointment.AppointmentDTO
+import com.example.database.appointment.Appointments
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -19,5 +21,15 @@ fun Route.messageRouting() {
         val login = call.parameters["login"]!!
         val doctorId = call.parameters["doctorId"]!!
         call.respond(Messages.getMessages(login, doctorId))
+    }
+
+    post("/appointment") {
+        val request = call.receive<AppointmentDTO>()
+        val appointment = Appointments.insertAppointment(
+            doctorId = request.doctorId,
+            dateTime = request.dateTime,
+            userLogin = request.userLogin
+        )
+        call.respond(appointment)
     }
 }

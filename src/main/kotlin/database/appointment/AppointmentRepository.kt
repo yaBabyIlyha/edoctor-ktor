@@ -33,4 +33,27 @@ object Appointments : Table("appointment") {
                 }
         }
     }
+    fun insertAppointment(
+        doctorId: String,
+        dateTime: LocalDateTime,
+        userLogin: String
+    ): AppointmentDTO {
+        return transaction {
+            val insertedId = Appointments.insert {
+                it[Appointments.doctorId] = doctorId
+                it[Appointments.dateTime] = dateTime
+                it[Appointments.userLogin] = userLogin
+            } get Appointments.appointmentId
+
+            AppointmentDTO(
+                appointmentId = insertedId,
+                doctorId = doctorId,
+                dateTime = dateTime,
+                userLogin = userLogin
+            )
+        }
+    }
+
+
+
 }
