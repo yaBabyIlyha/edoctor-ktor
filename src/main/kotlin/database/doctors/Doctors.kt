@@ -17,6 +17,7 @@ object Doctors : Table("doctors") {
     val secondName = varchar("second_name",20)
     val thirdName = varchar("third_name",20)
     val spec = varchar("spec",20)
+    val password = varchar("password", 20)
 
     override val primaryKey = PrimaryKey(id)
 }
@@ -30,7 +31,8 @@ public fun fetchDoctor(id: String): DoctorDTO? {
                     spec = it[Doctors.spec],
                     firstName = it[Doctors.firstName],
                     secondName = it[Doctors.secondName],
-                    thirdName = it[Doctors.thirdName]
+                    thirdName = it[Doctors.thirdName],
+                    password = it[Doctors.password]
                 )
             }
         }

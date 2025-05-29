@@ -8,5 +8,6 @@ class DoctorDTO (
     val firstName: String,
     val secondName: String,
     val thirdName: String,
-    val spec: String
+    val spec: String,
+    val password: String
 )

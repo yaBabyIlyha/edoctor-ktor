@@ -10,35 +10,39 @@ import java.time.LocalDateTime
 
 object Messages : Table("messages") {
     val id = integer("id").autoIncrement()
-    val senderLogin = varchar("sender_login", 30)
-    val receiverDoctorId = varchar("receiver_doctor_id", 10)
+    val senderLogin = varchar("sender_login", 50)
+    val receiverLogin = varchar("receiver_login", 50)
     val content = text("content")
     val timestamp = datetime("timestamp")
 
     override val primaryKey = PrimaryKey(id)
 
-    fun insertMessage(sender: String, doctorId: String, message: String) {
+    fun insertMessage(sender: String, receiver: String, message: String) {
         transaction {
             insert {
                 it[senderLogin] = sender
-                it[receiverDoctorId] = doctorId
+                it[receiverLogin] = receiver
                 it[content] = message
+                it[timestamp] = LocalDateTime.now()
             }
         }
     }
 
+
     fun getMessages(sender: String, doctorId: String): List<MessageDTO> {
         return transaction {
             select {
-                (Messages.senderLogin eq sender and (Messages.receiverDoctorId eq doctorId)) or
-                        (Messages.senderLogin eq doctorId and (Messages.receiverDoctorId eq sender))
-            }.orderBy(timestamp to SortOrder.ASC).map {
+                (Messages.senderLogin eq sender and (Messages.receiverLogin eq doctorId)) or
+                        (Messages.senderLogin eq doctorId and (Messages.receiverLogin eq sender))
+            }.orderBy(Messages.timestamp to SortOrder.ASC).map {
                 MessageDTO(
-                    sender = it[senderLogin],
+                    senderLogin = it[senderLogin],
+                    receiverLogin = it[receiverLogin],
                     content = it[content],
-                    receiverDoctorId = it[receiverDoctorId]
+                    timestamp = it[timestamp].toString()
                 )
             }
         }
     }
+
 }

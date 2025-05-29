@@ -1,10 +1,12 @@
 package com.example
 
-import com.example.DoctorList.configureDoctorsRouting
+
+import com.example.database.messages.chatRoutes
 import com.example.database.messages.messageRouting
 import com.example.database.users.configureUserRouting
 import com.example.login.configureLoginRouting
 import com.example.register.configureRegisterRouting
+import configureDoctorsRouting
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -41,6 +43,9 @@ fun Application.module() {
     configureUserRouting()
     routing {
         messageRouting()
+    }
+    routing {
+        chatRoutes()
     }
 }
 

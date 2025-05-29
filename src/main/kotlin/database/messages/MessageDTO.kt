@@ -4,7 +4,8 @@ import java.time.LocalDateTime
 
 @Serializable
 data class MessageDTO(
-    val sender: String,
+    val senderLogin: String,
+    val receiverLogin: String,
     val content: String,
-    val receiverDoctorId: String
+    val timestamp: String? = null // если хочешь
 )

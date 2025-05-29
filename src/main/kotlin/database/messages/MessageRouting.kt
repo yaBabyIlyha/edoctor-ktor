@@ -11,7 +11,7 @@ import io.ktor.server.request.receive
 fun Route.messageRouting() {
     post("/chat/send") {
         val body = call.receive<MessageDTO>()
-        Messages.insertMessage(body.sender, body.receiverDoctorId, body.content)
+        Messages.insertMessage(body.senderLogin, body.receiverLogin, body.content)
         call.respond(HttpStatusCode.OK)
     }
 
