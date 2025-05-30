@@ -1,5 +1,6 @@
 package com.example.database.appointment
 
+import com.example.database.doctors.Doctors
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.greaterEq
 import org.jetbrains.exposed.sql.javatime.datetime
@@ -53,7 +54,21 @@ object Appointments : Table("appointment") {
             )
         }
     }
-
-
-
+    fun getAllAppointmentsByLogin(login: String): List<AppointmentResponse> {
+        return transaction {
+            Appointments.innerJoin(Doctors, { doctorId }, { Doctors.id })
+                .select { Appointments.userLogin eq login }
+                .orderBy(Appointments.dateTime to SortOrder.DESC)
+                .map { row ->
+                    AppointmentResponse(
+                        appointmentId = row[Appointments.appointmentId],
+                        doctorId = row[Appointments.doctorId],
+                        dateTime = row[Appointments.dateTime].toString(),
+                        doctorFirstName = row[Doctors.firstName],
+                        doctorSecondName = row[Doctors.secondName],
+                        doctorSpecialization = row[Doctors.spec]
+                    )
+                }
+        }
+    }
 }

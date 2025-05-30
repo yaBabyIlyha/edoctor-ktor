@@ -32,4 +32,16 @@ fun Route.messageRouting() {
         )
         call.respond(appointment)
     }
-}
+
+        get("/appointments") {
+            val login = call.request.queryParameters["login"]
+            if (login == null) {
+                call.respond(HttpStatusCode.BadRequest, "Login is missing")
+                return@get
+            }
+
+            val appointments = Appointments.getAllAppointmentsByLogin(login)
+            call.respond(appointments)
+        }
+    }
+
